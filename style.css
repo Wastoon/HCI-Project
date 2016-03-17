@@ -1,0 +1,24 @@
+body {
+	padding-top: 50px;
+	background-image: url("background.jpg");
+	background-repeat : repeat;
+}
+#home {
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+}
+.group-member-name{
+	text-align: center;
+	font-weight: bold;
+}
+.group-member-bio{
+	text-align: left;
+	font-weight: bold;
+}
+footer {
+    background-color:#191919;
+    clear:both;
+    text-align:center;
+    padding:75px;
+}
