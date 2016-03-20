@@ -53,5 +53,43 @@ $(document).ready(function() {
 
 });
 $(window).load(function(){
-        $('#loginModal').modal('show');
-    });
+    $('#loginModal').modal('show');
+});
+
+function Login(form) {
+  if(form.email.value == "harry@hogwarts.edu" && form.password.value == "hedwig"){
+    $('#loginModal').modal('hide');
+    document.getElementById("home-content").style.display = "block";
+  }
+  else{
+    alert("Something is incorrect");
+    form.email.focus();
+  }
+  return true;
+}
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#profile-picture')
+                .attr('src', e.target.result)
+                .height(140);
+        };
+        document.getElementById("profile-picture").style.display = "block";
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function checkNewUser(form){
+  var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+  var ret = true;
+
+  if (reg.test(form.email.value) == false)
+  {
+      alert('Invalid Email Address');
+      ret = false;
+  }
+  return ret;
+
+}
