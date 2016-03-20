@@ -71,7 +71,7 @@
 		<div class="panel panel-default" style="background-color:#ffff99;padding-left:10px;padding-right:10px;">
 			<div class="panel-title">
 				<h9>Current Goals</h9>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" class="btn btn-success" style="color:black; font-weight:bold;font-size: 150%;">+ Add Goal</button>
+						<button type="button" class="btn btn-success" style="color:black; font-weight:bold;font-size: 150%;" data-toggle="modal" data-target="#myModalHorizontal">+ Add Goal</button>
 	    </div>
 
 			<div class="progress">
@@ -141,6 +141,61 @@
 			</div>
 		</div>
 	</div>
+
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog"
+	     aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!-- Modal Header -->
+	            <div class="modal-header">
+	                <button type="button" class="close"
+	                   data-dismiss="modal">
+	                       <span aria-hidden="true">&times;</span>
+	                       <span class="sr-only">Close</span>
+	                </button>
+	                <h4 class="modal-title" id="myModalLabel">New Goal</h4>
+	            </div>
+
+	            <!-- Modal Body -->
+	            <div class="modal-body">
+
+	                <form class="form-horizontal" role="form">
+	                  <div class="form-group">
+	                    <label  class="col-sm-2 control-label" for="newTitle">Title</label>
+	                    <div class="col-sm-10">
+	                        <input class="form-control" id="newTitle" placeholder="Ex: Create 5 new sketches"/>
+	                    </div>
+	                  </div>
+	                  <div class="form-group">
+	                    <label class="col-sm-2 control-label" for="newDeadline">Deadline</label>
+	                    <div class="col-sm-10">
+	                        <input type="date" class="form-control" id="newDeadline"/>
+	                    </div>
+	                  </div>
+										<div class="form-group">
+	                    <label class="col-sm-2 control-label" for="newGoal">Details</label>
+											<div class="col-sm-10">
+	                    	<textarea class="form-control" id="about-me" rows="3" placeholder="Ex: We want to create 5 new sketches."></textarea>
+											</div>
+	                  </div>
+	                </form>
+	            </div>
+
+	            <!-- Modal Footer -->
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	                <button type="button" class="btn btn-success" style="color:black;">Add</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+
+
 
 </br></br></br></br>
 	<footer id="contact">

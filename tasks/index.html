@@ -81,6 +81,7 @@
 					<!--Current Tasks-->
 					<div class="panel-title">
 						<h9>Current Tasks</h9>
+						<button type="button" class="btn btn-success" style="color:black; font-weight:bold;font-size: 150%;" data-toggle="modal" data-target="#myModalHorizontal">+ Add Task</button>
 					</div>
 
 					<div class="progress">
@@ -165,6 +166,58 @@
 			</div>
 		</div>
 	</div>
+
+
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalHorizontal" tabindex="-1" role="dialog"
+	     aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!-- Modal Header -->
+	            <div class="modal-header">
+	                <button type="button" class="close"
+	                   data-dismiss="modal">
+	                       <span aria-hidden="true">&times;</span>
+	                       <span class="sr-only">Close</span>
+	                </button>
+	                <h4 class="modal-title" id="myModalLabel">New Task</h4>
+	            </div>
+
+	            <!-- Modal Body -->
+	            <div class="modal-body">
+
+	                <form class="form-horizontal" role="form">
+	                  <div class="form-group">
+	                    <label  class="col-sm-2 control-label" for="newTitle">Title</label>
+	                    <div class="col-sm-10">
+	                        <input class="form-control" id="newTitle" placeholder="Ex: Make a new wand."/>
+	                    </div>
+	                  </div>
+	                  <div class="form-group">
+	                    <label class="col-sm-2 control-label" for="newDeadline">Deadline</label>
+	                    <div class="col-sm-10">
+	                        <input type="date" class="form-control" id="newDeadline"/>
+	                    </div>
+	                  </div>
+										<div class="form-group">
+	                    <label class="col-sm-2 control-label" for="newGoal">Details</label>
+											<div class="col-sm-10">
+	                    	<textarea class="form-control" id="about-me" rows="3" placeholder="Ex: Wand needs to be 11 inches, yew, unicorn hair."></textarea>
+											</div>
+	                  </div>
+	                </form>
+	            </div>
+
+	            <!-- Modal Footer -->
+	            <div class="modal-footer">
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	                <button type="button" class="btn btn-success" style="color:black;">Add</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
 
 </br></br></br></br>
 	<footer id="contact">

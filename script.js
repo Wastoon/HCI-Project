@@ -52,3 +52,6 @@ $(document).ready(function() {
   objDiv.scrollTop = objDiv.scrollHeight;
 
 });
+$(window).load(function(){
+        $('#loginModal').modal('show');
+    });
