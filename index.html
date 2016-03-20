@@ -22,6 +22,7 @@
 	<link rel="stylesheet" href="style.css">
 	<!-- Font Awesome Icons -->
 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -61,66 +62,92 @@
 	<!--Home page-->
 </br></br>
 	<div id="home">
-		<img src="welcome.png"class="img-center" alt="Welcome">
+		<h8>Welcome</h8>
 	</div>
 
 </br></br></br>
 	<div id="goals" class="container">
-    <div class="page-header">
-      <h1>Current Goals</h1>
-    </div>
-    <div class="panel-group" id="accordion">
-
-      <div class="panel panel-default">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#ufhealth">
-          <h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span> &nbsp;Goal #1</h3>
-        </div>
-        <div id="ufhealth" class="panel-collapse collapse">
-					<h4>&nbsp;&nbsp;Deadline: 3/21/16</h4>
-          <div class="panel-body">Get a basic prototype site up and running and the design stuff written/drawn.</div>
-        </div>
-      </div>
-
-      <div class="panel panel-default">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#lockheed">
-          <h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span> &nbsp;Goal #2</h3>
-        </div>
-        <div id="lockheed" class="panel-collapse collapse">
-					<h4>&nbsp;&nbsp;Deadline: Sometime?</h4>
-          <div class="panel-body">Get the full project done.</div>
-	      </div>
+		<div class="panel panel-default" style="background-color:#ffff99;padding-left:10px;padding-right:10px;">
+	    <div class="panel-title">
+	      <h9>Current Goals</h9>
 	    </div>
-	  </div>
+
+			<div class="progress">
+			  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 37%;">
+			    37%
+			  </div>
+			</div>
+
+			<div class="panel-group" id="accordion">
+
+				<div class="panel panel-default">
+					<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#goal1">
+						<h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Goal #1</h3>
+
+					</div>
+					<div id="goal1" class="panel-collapse collapse">
+						<h4>&nbsp;&nbsp;
+							<button type="button" class="btn btn-info glyphicon glyphicon-ok" style="color:black;"></button>
+							<button type="button" class="btn btn-danger glyphicon glyphicon-remove" style="color:black;"></button>
+							&nbsp;&nbsp;Deadline: 3/21/16</h4>
+						<div class="panel-body">Get a basic prototype site up and running and the design stuff written/drawn.</div>
+					</div>
+				</div>
+
+				<div class="panel panel-default">
+					<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#goal2">
+						<h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Goal #2</h3>
+					</div>
+					<div id="goal2" class="panel-collapse collapse">
+						<h4>&nbsp;&nbsp;
+							<button type="button" class="btn btn-info glyphicon glyphicon-ok" style="color:black;"></button>
+							<button type="button" class="btn btn-danger glyphicon glyphicon-remove" style="color:black;"></button>
+							&nbsp;&nbsp;Deadline: Sometime?</h4>
+						<div class="panel-body">Get the full project done.</div>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 </br></br></br>
 	<div id="group-members" class="container">
-		<div class="page-header">
-      <h1>Group Members</h1>
-    </div>
+		<div class="panel panel-default" style="background-color:#ffff99;padding-left:10px;padding-right:10px;">
+			<div class="panel-title">
+	      <h9>Group Members</h9>
+	    </div>
 
-		<div class="row">
+			<div class="row">
+			  <div class="col-sm-6 col-md-4">
+			    <div class="thumbnail">
+			      <img src="potter.jpg" alt="potter">
+			      <div class="caption">
+			        <h3>Harry Potter - <span style="font-weight:bold; color:red;">Admin</span></h3>
+			        <p>A lot of people call me The Chosen One. I like to play quidditch and beat up death eaters in my spare time.</p>
+			      </div>
+			    </div>
+			  </div>
 
-			<div class="col-md-4">
-				<img src="potter.jpg" height="140" width="140" class="img-responsive img-rounded img-center center-block" alt="potter">
-				<h3 class="group-member-name">Harry Potter</br>ADMIN</h3>
-				<p class="group-member-bio">A lot of people call me The Chosen One. I like to play quidditch and beat up death eaters in my spare time.</p>
+				<div class="col-sm-6 col-md-4">
+			    <div class="thumbnail">
+			      <img src="granger.jpg" alt="granger">
+			      <div class="caption">
+			        <h3>Hermione Granger</h3>
+			        <p>I LOVE working on group projects, so don't worry about a thing! I have some great ideas and can't wait to get an A!</p>
+			      </div>
+			    </div>
+			  </div>
 
+				<div class="col-sm-6 col-md-4">
+			    <div class="thumbnail">
+			      <img src="weasley.jpg" alt="weasley">
+			      <div class="caption">
+			        <h3>Ron Weasley</h3>
+			        <p>You probably know all of my other siblings. I'm nothing special and am very prone to slack off, especially if there's food around to eat instead.</p>
+			      </div>
+			    </div>
+			  </div>
 			</div>
-
-			<div class="col-md-4">
-				<img src="weasley.jpg" height="140" width="140" class="img-responsive img-rounded img-center center-block" alt="weasley">
-				<h3 class="group-member-name">Ron Weasley</h3>
-				<p class="group-member-bio">You probably know all of my other siblings. I'm nothing special and am very prone to slack off, especially if there's food around to eat instead.</p>
-			</div>
-
-			<div class="col-md-4">
-				<img src="granger.jpg" height="140" width="140" class="img-responsive img-rounded img-center center-block" alt="granger">
-				<h3 class="group-member-name">Hermione Granger</h3>
-				<p class="group-member-bio">I LOVE working on group projects, so don't worry about a thing! I have some great ideas and can't wait to get an A!</p>
-			</div>
-			<br/>
-			<br/>
 		</div>
 	</div>
 

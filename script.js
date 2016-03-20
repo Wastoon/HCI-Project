@@ -46,4 +46,9 @@ $(document).ready(function() {
     return [];
   }
 
+
+  //Starts the discussion window at the bottom
+  var objDiv = document.getElementById("discussion-window");
+  objDiv.scrollTop = objDiv.scrollHeight;
+
 });

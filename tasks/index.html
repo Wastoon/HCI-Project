@@ -22,6 +22,7 @@
 	<link rel="stylesheet" href="../style.css">
 	<!-- Font Awesome Icons -->
 	<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link href='https://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
@@ -62,7 +63,107 @@
 	<!--Home page-->
 </br></br>
 	<div id="home">
-		<h1>TASKS</h1>
+		<h8>Tasks</h8>
+	</div>
+
+</br></br></br>
+	<div class="container">
+		<div class="panel panel-default" style="background-color:#ffff99;padding-left:10px;padding-right:10px;">
+			<ul class="nav nav-tabs">
+			  <li class="active"><a class="group-menu" data-toggle="tab" href="#harry">Harry</a></li>
+			  <li><a class="group-menu" data-toggle="tab" href="#hermione">Hermione</a></li>
+				<li><a class="group-menu" data-toggle="tab" href="#ron">Ron</a></li>
+			</ul>
+
+			<div class="tab-content">
+			  <div id="harry" class="tab-pane fade in active">
+
+					<!--Current Tasks-->
+					<div class="panel-title">
+						<h9>Current Tasks</h9>
+					</div>
+
+					<div class="progress">
+					  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="71" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 71%;">
+					    71%
+					  </div>
+					</div>
+
+					<div class="panel-group" id="accordion">
+
+						<div class="panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#task1">
+								<h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Task #1</h3>
+
+							</div>
+							<div id="task1" class="panel-collapse collapse">
+								<h4>&nbsp;&nbsp;
+									<button type="button" class="btn btn-info glyphicon glyphicon-ok" style="color:black;"></button>
+									<button type="button" class="btn btn-danger glyphicon glyphicon-remove" style="color:black;"></button>
+									&nbsp;&nbsp;Deadline: 3/21/16</h4>
+								<div class="panel-body">Write some html or something.</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#task2">
+								<h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Task #2</h3>
+							</div>
+							<div id="task2" class="panel-collapse collapse">
+								<h4>&nbsp;&nbsp;
+									<button type="button" class="btn btn-info glyphicon glyphicon-ok" style="color:black;"></button>
+									<button type="button" class="btn btn-danger glyphicon glyphicon-remove" style="color:black;"></button>
+									&nbsp;&nbsp;Deadline: Sometime?</h4>
+								<div class="panel-body">Implement a database.</div>
+							</div>
+						</div>
+					</div>
+
+
+
+					<!--Completed Tasks-->
+				</br></br></br>
+					<div class="panel-title">
+						<h9>Completed Tasks</h9>
+					</div>
+					<div class="panel-group" id="accordion">
+
+						<div class="panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#completed1">
+								<h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Task #1</h3>
+
+							</div>
+							<div id="completed1" class="panel-collapse collapse">
+								<h4>&nbsp;&nbsp;Completed: 3/21/16</h4>
+								<div class="panel-body">Write some html or something.</div>
+							</div>
+						</div>
+
+						<div class="panel panel-default">
+							<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#completed2">
+								<h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Task #2</h3>
+							</div>
+							<div id="completed2" class="panel-collapse collapse">
+								<h4>&nbsp;&nbsp;Completed: Sometime?</h4>
+								<div class="panel-body">Implement a database.</div>
+							</div>
+						</div>
+					</div>
+			  </div>
+
+
+
+			  <div id="hermione" class="tab-pane fade">
+			    <p>Some content.</p>
+			  </div>
+
+
+
+				<div id="ron" class="tab-pane fade">
+			    <p>Some content.</p>
+			  </div>
+			</div>
+		</div>
 	</div>
 
 </br></br></br></br>

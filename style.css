@@ -22,3 +22,27 @@ footer {
     text-align:center;
     padding:75px;
 }
+h8{
+	font-family: 'Satisfy', cursive;
+	Arial, serif; font-weight: 1000;
+	font-size: 700%;
+	color: white;
+}
+h9{
+	font-family: 'Satisfy', cursive;
+	Arial, serif; font-weight: 1000;
+	font-size: 400%;
+}
+.group-menu{
+	color:black;
+	font-size: 150%;
+}
+p{
+	font-size: 115%;
+}
+hr {
+	border: none;
+	height: 1px;
+	color: grey;
+	background-color:black;
+}
