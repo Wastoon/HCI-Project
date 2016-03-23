@@ -70,40 +70,49 @@
 			</div>
 
 </br></br>
-			<form class="form-inline">
+			<form class="form-inline" style="text-align:right; width:50%;">
 			  <div class="form-group">
 			    <label for="first-name">First Name</label>
-			    <input class="form-control" id="first-name" type="text" placeholder="Ex: Joe">
-				</div>
-				<div class="form-group">&nbsp;&nbsp;&nbsp;
+			    <input class="form-control" name="first-name" id="first-name" type="text" placeholder="Ex: Joe">
+				</div></br></br>
+				<div class="form-group">
 					<label for="last-name">Last Name</label>
-			    <input class="form-control" id="last-name" type="text" placeholder="Ex: Smith">
-				</div>
-			</form>
-		</br>
-			<form role="form" style="width:51%">
+			    <input class="form-control" name="last-name" id="last-name" type="text" placeholder="Ex: Smith">
+				</div></br></br>
+			<!--/form-->
+			<!--form role="form" style="width:51%"-->
 				<div class="form-group">
 					<label for="email-address">Email Address</label>
-			    <input class="form-control" name="email" id="email-address" type="text" placeholder="Ex: jsmith@example.com"></br>
+			    <input class="form-control" name="email" id="email-address" type="text" placeholder="Ex: jsmith@example.com">
+			    </div></br></br>
 
+		<div class = "form-group">
           <label for="password1">Password</label>
-			    <input class="form-control" name="password1" id="password1" type="password" placeholder="Password"></br>
-
+			    <input class="form-control" name="password1" id="password1" type="password" placeholder="Password">
+</div></br></br>
+<div class = "form-group">
           <label for="password2">Re-enter Password</label>
-			    <input class="form-control" name="password2" id="password2" type="password" placeholder="Re-enter Password"></br>
-
+			    <input class="form-control" name="password2" id="password2" type="password" placeholder="Re-enter Password">
+</div></br></br>
+<div class = "form-group">
 					<label for="phone-number">Phone Number</label>
-			    <input class="form-control" name="phone-number" id="phone-number" type="tel" placeholder="Ex: 123-456-7890"></br>
-
+			    <input class="form-control" name="phone-number" id="phone-number" type="tel" placeholder="Ex: 123-456-7890">
+			    </div></br></br>
+			    <div class = "form-group">
+			    <label for="group-id">Group Code</label>
+			    <input class="form-control" name="group-id" id="group-id" type="number" placeholder="Ex: 1234567890">
+</div></br></br>
+<div class = "form-group">
 					<label for="about-me">About Me</label>
-    			<textarea class="form-control" id="about-me" rows="4" placeholder="Ex: I love to swim."></textarea></br>
-
+    			<textarea class="form-control" name="about-me" id="about-me" rows="4" placeholder="Ex: I love to swim."></textarea>
+</div></br></br>
+<div class = "form-group">
           <label for="picture-input">Select a profile picture</label>
           <input type='file' accept="image/*" id="picture-input" onchange="readURL(this);"/>
           <img id="profile-picture" src="#" alt="Profile picture"  style="display:none;"/>
-			  </div>
+			  </div></br></br>
 
-        <button type="button" class="btn btn-success" onClick="checkNewUser(this.form);" style="color:black;font-weight:bold;font-size: 120%;">Submit</button></br></br>
+        <button type="button" class="btn btn-success" onClick="signup(this.form);" style="color:black;font-weight:bold;font-size: 120%;">Submit</button></br></br>
 			</form>
 		</div>
 	</div>

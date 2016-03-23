@@ -93,3 +93,39 @@ function checkNewUser(form){
   return ret;
 
 }
+
+function signup(form) {
+	
+	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+  if (reg.test(form.email.value) == false)
+  {
+      alert('Invalid Email Address');
+      return false;
+  }
+  
+var firstname = $("#first-name").val();
+var lastname = $("#last-name").val();
+var phonenumber = $("#phone-number").val();
+var email = $("#email-address").val();
+var password1 = $("#password1").val();
+var aboutme = $("#about-me").val();
+var groupid = $("#group-id").val();
+
+$.post("signup.php", { firstname: firstname, lastname: lastname, phonenumber:phonenumber,
+						email: email, phonenumber: phonenumber, password1: password1, aboutme: aboutme, groupid: groupid },
+   function(data) {
+	   if(data == 0){
+		   alert("User created!");
+	   }
+	   else if(data == 1){
+		   alert("There is already an account associated with that email address!");
+	   }
+	   else if(data == 2){
+		   alert("There is already an account associated with that phone number!");
+	   }
+   });
+   
+   return true;
+}
+
