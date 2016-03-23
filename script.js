@@ -107,6 +107,8 @@ function signup(form) {
 var firstname = $("#first-name").val();
 var lastname = $("#last-name").val();
 var phonenumber = $("#phone-number").val();
+phonenumber = phonenumber.split('-').join('');
+console.log(phonenumber);
 var email = $("#email-address").val();
 var password1 = $("#password1").val();
 var aboutme = $("#about-me").val();
