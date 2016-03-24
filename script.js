@@ -56,7 +56,14 @@ $(window).load(function(){
     $('#loginModal').modal('show');
 });
 
-function Login(form) {
+function login(form) {
+  var email = $("#email-address").val();
+  var password1 = $("#password").val();
+  $.post("login.php", { email: email, password1: password1 },
+     function(data) {
+  	   console.log(data);
+     });
+/*
   if(form.email.value == "harry@hogwarts.edu" && form.password.value == "hedwig"){
     $('#loginModal').modal('hide');
     document.getElementById("home-content").style.display = "block";
@@ -65,8 +72,10 @@ function Login(form) {
     alert("Something is incorrect");
     form.email.focus();
   }
+  */
   return true;
 }
+
 function readURL(input) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -95,7 +104,7 @@ function checkNewUser(form){
 }
 
 function signup(form) {
-	
+
 	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
   if (reg.test(form.email.value) == false)
@@ -103,7 +112,7 @@ function signup(form) {
       alert('Invalid Email Address');
       return false;
   }
-  
+
 var firstname = $("#first-name").val();
 var lastname = $("#last-name").val();
 var phonenumber = $("#phone-number").val();
@@ -117,7 +126,6 @@ var groupid = $("#group-id").val();
 $.post("signup.php", { firstname: firstname, lastname: lastname, phonenumber:phonenumber,
 						email: email, phonenumber: phonenumber, password1: password1, aboutme: aboutme, groupid: groupid },
    function(data) {
-	   console.log(data);
 	   if(data == 0){
 		   alert("User created!");
 	   }
@@ -128,7 +136,5 @@ $.post("signup.php", { firstname: firstname, lastname: lastname, phonenumber:pho
 		   alert("There is already an account associated with that phone number!");
 	   }
    });
-   console.log("DONE");
    return true;
 }
-
