@@ -45,7 +45,21 @@ $(document).ready(function() {
     }
     return [];
   }
-
+  
+	var userID = parseInt(localStorage.getItem("currentUser"));
+	var loggedIn;
+	if(locationPath == "~jnassar/HCI-Project"){
+		$.post("getLoggedInTime.php", {id: userID},
+			function(data){
+				localStorage.setItem("loggedIn", data);
+			});
+	}
+	else{
+		$.post("../getLoggedInTime.php", {id: userID},
+			function(data){
+				localStorage.setItem("loggedIn", data);
+			});
+	}
 
   //Starts the discussion window at the bottom
   var objDiv = document.getElementById("discussion-window");
@@ -53,26 +67,42 @@ $(document).ready(function() {
 
 });
 $(window).load(function(){
-    $('#loginModal').modal('show');
+	if(localStorage.getItem("loggedIn") == 0){
+		console.log("Not logged in");
+		$('#loginModal').modal('show');
+	}
+	else{
+		console.log("Logged in");
+		console.log(localStorage.getItem("loggedIn"));
+		document.getElementById("home-content").style.display = "block";
+	}
 });
 
 function login(form) {
-  var email = $("#email-address").val();
-  var password1 = $("#password").val();
-  $.post("login.php", { email: email, password1: password1 },
-     function(data) {
-  	   console.log(data);
-     });
-/*
-  if(form.email.value == "harry@hogwarts.edu" && form.password.value == "hedwig"){
-    $('#loginModal').modal('hide');
-    document.getElementById("home-content").style.display = "block";
-  }
-  else{
-    alert("Something is incorrect");
-    form.email.focus();
-  }
-  */
+	var email = $("#email-address").val();
+	var password1 = $("#password").val();
+	$.post("login.php", { email: email, password1: password1 },
+		function(data) {
+			if(data == -1){
+				alert("No user exists with that email address");
+				document.getElementById("email-address").value = "";
+				document.getElementById("password").value = "";
+				return false;
+			}
+			else if(data == -2){
+				alert("Incorrect password");
+				document.getElementById("password").value = "";
+				return false;
+			}
+			else{
+				$.post("updateLoggedIn.php", {email: email},
+				function(data){
+				});
+				localStorage.setItem("currentUser", data);
+				$('#loginModal').modal('hide');
+				document.getElementById("home-content").style.display = "block";
+			}
+	});
   return true;
 }
 
@@ -107,34 +137,40 @@ function signup(form) {
 
 	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-  if (reg.test(form.email.value) == false)
-  {
-      alert('Invalid Email Address');
-      return false;
-  }
+	if (reg.test(form.email.value) == false)
+	{
+		alert('Invalid Email Address');
+		return false;
+	}
 
-var firstname = $("#first-name").val();
-var lastname = $("#last-name").val();
-var phonenumber = $("#phone-number").val();
-phonenumber = phonenumber.split('-').join('');
-console.log(phonenumber);
-var email = $("#email-address").val();
-var password1 = $("#password1").val();
-var aboutme = $("#about-me").val();
-var groupid = $("#group-id").val();
+	var firstname = $("#first-name").val();
+	var lastname = $("#last-name").val();
+	var phonenumber = $("#phone-number").val();
+	phonenumber = phonenumber.split('-').join('');
+	var email = $("#email-address").val();
+	var password1 = $("#password1").val();
+	var aboutme = $("#about-me").val();
+	var groupid = $("#group-id").val();
 
-$.post("signup.php", { firstname: firstname, lastname: lastname, phonenumber:phonenumber,
-						email: email, phonenumber: phonenumber, password1: password1, aboutme: aboutme, groupid: groupid },
-   function(data) {
-	   if(data == 0){
-		   alert("User created!");
-	   }
-	   else if(data == 1){
-		   alert("There is already an account associated with that email address!");
-	   }
-	   else if(data == 2){
-		   alert("There is already an account associated with that phone number!");
-	   }
-   });
+	$.post("signup.php", { firstname: firstname, lastname: lastname, phonenumber:phonenumber,
+			email: email, phonenumber: phonenumber, password1: password1, aboutme: aboutme, groupid: groupid },
+		function(data) {
+		if(data == 0){
+			alert("User created!");
+			
+			$.post("../updateLoggedIn.php", {email: email},
+				function(data){
+					localStorage.setItem("currentUser", data);
+				});
+		}
+		else if(data == 1){
+			alert("There is already an account associated with that email address!");
+		}
+		else if(data == 2){
+			alert("There is already an account associated with that phone number!");
+		}
+	});
+	
+	
    return true;
 }
