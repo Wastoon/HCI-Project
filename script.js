@@ -117,6 +117,7 @@ var groupid = $("#group-id").val();
 $.post("signup.php", { firstname: firstname, lastname: lastname, phonenumber:phonenumber,
 						email: email, phonenumber: phonenumber, password1: password1, aboutme: aboutme, groupid: groupid },
    function(data) {
+	   console.log(data);
 	   if(data == 0){
 		   alert("User created!");
 	   }
@@ -127,7 +128,7 @@ $.post("signup.php", { firstname: firstname, lastname: lastname, phonenumber:pho
 		   alert("There is already an account associated with that phone number!");
 	   }
    });
-   
+   console.log("DONE");
    return true;
 }
 
