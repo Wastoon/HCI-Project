@@ -174,3 +174,111 @@ function signup(form) {
 	
    return true;
 }
+
+function addGoal() {
+	
+	var title = $("#newTitle").val();
+	var deadline = $("#newDeadline").val();
+	var desc = $("#newGoal").val();
+	var userID = parseInt(localStorage.getItem("currentUser"));
+	
+	$.post("addGoal.php", { title: title, deadline: deadline, desc: desc, userID: userID },
+		function(data) {
+			document.getElementById("newTitle").value= "";
+			document.getElementById("newDeadline").value= "";
+			document.getElementById("newGoal").value= "";
+			$('#myModalHorizontal').modal('hide');
+			displayMessageModal("Goal Created", "You've just created a new goal. Good luck!");
+			printGoals();
+	});
+	return true;
+}
+
+function printGoals() {
+	
+	var userID = parseInt(localStorage.getItem("currentUser"));
+	$.post("printGoals.php", {userID: userID},
+		function(data) {
+			data = JSON.parse(data);
+			var currentGoals = "";
+			var completedGoals = "";
+			var currentCount = 0;
+			var completedCount = 0;
+			for(var i = 0; i < data.length; i++){
+				data[i][3] = data[i][3].substr(0, data[i][3].indexOf(' ')); 
+				if(data[i][4] == 0){
+					currentGoals += "<div class='panel panel-default'><div class='panel-heading' data-toggle='collapse' data-parent='#currentGoalsAccordion' data-target='#goal" + data[i][5] +"'>";
+					currentGoals += "<h3 class='panel-title'><span class='glyphicon glyphicon-chevron-down'></span>&nbsp;" + data[i][1] + "</h3></div>";
+					currentGoals += "<div id='goal" + data[i][5] + "' class='panel-collapse collapse'><h4>&nbsp;&nbsp;";
+					currentGoals += "<button type='button' class='btn btn-info glyphicon glyphicon-ok' onClick='completeGoal("+data[i][5]+");' style='color:black;'></button>";
+					currentGoals += "<button type='button' class='btn btn-danger glyphicon glyphicon-remove' onClick='deleteGoal("+data[i][5]+");' style='color:black;'></button>";
+					currentGoals += "&nbsp;&nbsp;Deadline: " + data[i][3] + "</h4><div class='panel-body'>" + data[i][2] + "</div></div></div>";
+					currentCount++;
+				}
+				else{
+					completedGoals += "<div class='panel panel-default'><div class='panel-heading' data-toggle='collapse' data-parent='#currentGoalsAccordion' data-target='#goal" + data[i][5] +"'>";
+					completedGoals += "<h3 class='panel-title'><span class='glyphicon glyphicon-chevron-down'></span>&nbsp;" + data[i][1] + "</h3></div>";
+					completedGoals += "<div id='goal" + data[i][5] + "' class='panel-collapse collapse'><h4>&nbsp;&nbsp;";
+					completedGoals += "&nbsp;&nbsp;Completed: " + data[i][3] + "</h4><div class='panel-body'>" + data[i][2] + "</div></div></div>";
+					completedCount++;
+				}
+			}
+			var percent = 0;
+			if(completedCount+currentCount != 0){
+				percent = Math.round((completedCount/(completedCount+currentCount))*100);
+			}
+			var progressBar = "<div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar'";
+			progressBar += "aria-valuenow='" + percent + "' aria-valuemin='0' aria-valuemax='100' style='min-width: 2em; width: " + percent + "%;'>";
+			progressBar += percent + "%</div>";
+			
+			document.getElementById("currentGoalsAccordion").innerHTML = currentGoals;
+			document.getElementById("completedGoalsAccordion").innerHTML = completedGoals;
+			document.getElementById("progress").innerHTML = progressBar;
+	});
+}
+
+function completeGoal(goalID){
+	$.post("completeGoal.php", { goalID: goalID },
+		function(data) {
+			printGoals();
+			displayMessageModal("Completed", "Goal completed! Nice!");
+	});
+}
+
+function deleteGoal(goalID){
+	$.post("deleteGoal.php", { goalID: goalID },
+		function(data) {
+			printGoals();
+			displayMessageModal("Deleted", "Goal deleted.");
+	});
+}
+
+function displayMessageModal(title, body){
+	document.getElementById("messageModalTitle").innerHTML = title;
+	document.getElementById("messageModalBody").innerHTML = body;
+	$('#messageModal').modal('show');
+	setTimeout(function() {
+		$('#messageModal').modal('hide');
+	}, 2000);
+}
+
+function addTask() {
+	
+	var title = $("#newTitle").val();
+	var deadline = $("#newDeadline").val();
+	var desc = $("#newTask").val();
+	var userID = parseInt(localStorage.getItem("currentUser"));
+	
+	$.post("addTask.php", { title: title, deadline: deadline, desc: desc, userID: userID },
+		function(data) {
+			document.getElementById("newTitle").value= "";
+			document.getElementById("newDeadline").value= "";
+			document.getElementById("newTask").value= "";
+			$('#myModalHorizontal').modal('hide');
+			$('#modalTaskAdded').modal('show');
+			setTimeout(function() {
+				$('#modalTaskAdded').modal('hide');
+			}, 2000);
+	});
+	return true;
+}
