@@ -7,15 +7,16 @@ $conn  = mysql_connect('mysql.cise.ufl.edu', 'jnassar', 'Theitis94') or
 
 @mysql_select_db('hci_project') or die('Could not select database');
 
-$title = $_POST['title'];
-$deadline = $_POST['deadline'];
-$desc = $_POST['desc'];
 $userID = $_POST['userID'];
-$zero = 0;
 
-$query = "INSERT INTO tasks VALUES ('$userID', '$title', '$desc', '$deadline', '$zero', '')";
+$query = "SELECT * from tasks";
 $result = mysql_query($query);
 
-echo($result);
+$arr = array();
+while($row = mysql_fetch_array($result)) {
+    $arr[] = $row; 
+}
+
+echo(json_encode($arr));
 
 mysql_close();?>

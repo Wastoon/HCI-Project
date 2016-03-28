@@ -32,7 +32,7 @@
 </head>
 
 
-<body>
+<body onload="homePageLoad();">
 <div id="home-content" style="display:none">
 		<!--Nav bar-->
 	<nav class="navbar navbar-default navbar-fixed-top">
@@ -53,6 +53,7 @@
 					<li><a href="./tasks">Tasks</a></li>
 					<li><a href="./discussion">Discussion</a></li>
 					<li><a href="./user">User</a></li>
+					<li style="text-align:right;"><a href="./logout">Logout</a></li>
 				</ul>
 			</div>
 		</div>
@@ -67,47 +68,23 @@
 	</div>
 
 </br></br></br>
-	<div id="goals" class="container">
+	<div id="goals-incomplete" class="container">
+		
 		<div class="panel panel-default" style="background-color:#ffff99;padding-left:10px;padding-right:10px;">
-	    <div class="panel-title">
-	      <h9>Current Goals</h9>
-	    </div>
-
-			<div class="progress">
-			  <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="37" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width: 37%;">
-			    37%
-			  </div>
+			<div class="panel-title">
+				<h9>Current Goals</h9>
 			</div>
 
-			<div class="panel-group" id="accordion">
+			<div class="progress" id="progress"></div>
 
-				<div class="panel panel-default">
-					<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#goal1">
-						<h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Goal #1</h3>
+			<div class="panel-group" id="currentGoalsAccordion"></div>
 
-					</div>
-					<div id="goal1" class="panel-collapse collapse">
-						<h4>&nbsp;&nbsp;
-							<button type="button" class="btn btn-info glyphicon glyphicon-ok" style="color:black;"></button>
-							<button type="button" class="btn btn-danger glyphicon glyphicon-remove" style="color:black;"></button>
-							&nbsp;&nbsp;Deadline: 3/21/16</h4>
-						<div class="panel-body">Get a basic prototype site up and running and the design stuff written/drawn.</div>
-					</div>
-				</div>
-
-				<div class="panel panel-default">
-					<div class="panel-heading" data-toggle="collapse" data-parent="#accordion" data-target="#goal2">
-						<h3 class="panel-title"><span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Goal #2</h3>
-					</div>
-					<div id="goal2" class="panel-collapse collapse">
-						<h4>&nbsp;&nbsp;
-							<button type="button" class="btn btn-info glyphicon glyphicon-ok" style="color:black;"></button>
-							<button type="button" class="btn btn-danger glyphicon glyphicon-remove" style="color:black;"></button>
-							&nbsp;&nbsp;Deadline: Sometime?</h4>
-						<div class="panel-body">Get the full project done.</div>
-					</div>
-				</div>
+</br></br></br>
+			<div class="panel-title">
+				<h9>Completed Goals</h9>
 			</div>
+
+			<div class="panel-group" id="completedGoalsAccordion"></div>
 		</div>
 	</div>
 
@@ -119,39 +96,24 @@
 			<div class="panel-title">
 	      <h9>Group Members</h9>
 	    </div>
-
-			<div class="row">
-			  <div class="col-sm-6 col-md-4">
-			    <div class="thumbnail">
-			      <img src="potter.jpg" alt="potter">
-			      <div class="caption">
-			        <h3>Harry Potter - <span style="font-weight:bold; color:red;">Admin</span></h3>
-			        <p>A lot of people call me The Chosen One. I like to play quidditch and beat up death eaters in my spare time.</p>
-			      </div>
-			    </div>
-			  </div>
-
-				<div class="col-sm-6 col-md-4">
-			    <div class="thumbnail">
-			      <img src="granger.jpg" alt="granger">
-			      <div class="caption">
-			        <h3>Hermione Granger</h3>
-			        <p>I LOVE working on group projects, so don't worry about a thing! I have some great ideas and can't wait to get an A!</p>
-			      </div>
-			    </div>
-			  </div>
-
-				<div class="col-sm-6 col-md-4">
-			    <div class="thumbnail">
-			      <img src="weasley.jpg" alt="weasley">
-			      <div class="caption">
-			        <h3>Ron Weasley</h3>
-			        <p>You probably know all of my other siblings. I'm nothing special and am very prone to slack off, especially if there's food around to eat instead.</p>
-			      </div>
-			    </div>
-			  </div>
-			</div>
+		<div class="row" id="userContactCards"></div>
 		</div>
+	</div>
+	
+	
+	<div class="modal fade" id="messageModal" tabindex="-1" role="dialog"
+	     aria-labelledby="myModalLabel" aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <!-- Modal Header -->
+	            <div class="modal-header">
+	                <h4 class="modal-title" id="messageModalTitle"></h4>
+	            </div>
+	            
+	            <div class="modal-body" id="messageModalBody">
+				</div>
+	        </div>
+	    </div>
 	</div>
 
 

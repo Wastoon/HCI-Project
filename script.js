@@ -52,30 +52,33 @@ $(document).ready(function() {
 		$.post("getLoggedInTime.php", {id: userID},
 			function(data){
 				localStorage.setItem("loggedIn", data);
+				if(localStorage.getItem("loggedIn") == 0){
+					console.log("Not logged in");
+					$('#loginModal').modal('show');
+				}
+				else{
+					console.log("Logged in");
+					document.getElementById("home-content").style.display = "block";
+				}
 			});
 	}
 	else{
 		$.post("../getLoggedInTime.php", {id: userID},
 			function(data){
 				localStorage.setItem("loggedIn", data);
+				if(data == 0){
+					window.location.href = "http://cise.ufl.edu/~jnassar/HCI-Project/";		//THIS NEEDS TO BE ACTUALLY TESTED
+				}
 			});
 	}
+	console.log(localStorage.getItem("currentUser"));
 
   //Starts the discussion window at the bottom
   var objDiv = document.getElementById("discussion-window");
   objDiv.scrollTop = objDiv.scrollHeight;
-
 });
 $(window).load(function(){
-	if(localStorage.getItem("loggedIn") == 0){
-		console.log("Not logged in");
-		$('#loginModal').modal('show');
-	}
-	else{
-		console.log("Logged in");
-		console.log(localStorage.getItem("loggedIn"));
-		document.getElementById("home-content").style.display = "block";
-	}
+	
 });
 
 function login(form) {
@@ -275,10 +278,118 @@ function addTask() {
 			document.getElementById("newDeadline").value= "";
 			document.getElementById("newTask").value= "";
 			$('#myModalHorizontal').modal('hide');
-			$('#modalTaskAdded').modal('show');
-			setTimeout(function() {
-				$('#modalTaskAdded').modal('hide');
-			}, 2000);
+			displayMessageModal("Task Created", "You've just created a new task. Good luck!");
+			printTasks();
 	});
 	return true;
+}
+
+function printTasks() {
+	var listOfNames;
+	var userID = parseInt(localStorage.getItem("currentUser"));
+	$.post("getNames.php", {userID: userID},
+		function(data){
+			data = JSON.parse(data);
+			listOfNames = data;
+			var names = "<h9>Jump to:</h9></br>";
+			names += "<a class='group-menu' href='#panel"+listOfNames[0][0]+"'>"+data[0][1]+" "+data[0][2]+"</a></br>";
+			for(var i = 1; i < data.length; i++){
+				names += "<a class='group-menu' href='#panel"+listOfNames[i][0]+"'>"+data[i][1]+" "+data[i][2]+"</a></br>";
+			}
+			document.getElementById("names-nav").innerHTML = names;
+			var currentID = "";
+			var stringHTML = "";
+	
+			$.post("printTasks.php", {userID: userID},
+			function(data) {
+				data = JSON.parse(data);
+				for(var j = 0; j < listOfNames.length; j++){
+					currentID = listOfNames[j][0];
+					stringHTML += "<div class='panel panel-default' style='background-color:#ffff99;padding-left:10px;padding-right:10px;>";
+					stringHTML += "<div class='tab-pane fade in active'><div class='panel-title'><h9 id='panel"+currentID+"'>"+listOfNames[j][1]+" "+listOfNames[j][2]+"</h9></br><h1>Current Tasks</h1>";
+					if(currentID == parseInt(localStorage.getItem("currentUser"))){
+						stringHTML += "<button type='button' class='btn btn-success' style='color:black;font-weight:bold;font-size:150%;' data-toggle='modal' data-target='#myModalHorizontal'>+ Add Task</button></div>";
+					}
+					var currentTasks = "<div class='panel-group' id='currentAccordion"+currentID+"'>";
+					var completedTasks = "</br></br></br><div class='panel-title'><h1>Completed Tasks</h1></div><div class='panel-group' id=completedAccordion"+currentID+"'>";
+					var currentCount = 0;
+					var completedCount = 0;
+					for(var i = 0; i < data.length; i++){
+						if(currentID == data[i][0]){
+							data[i][3] = data[i][3].substr(0, data[i][3].indexOf(' '));
+							
+							if(data[i][4] == 0){		//Incomplete tasks
+								currentTasks += "<div class='panel panel-default'><div class='panel-heading' data-toggle='collapse' data-parent='#currentAccordion' data-target='#task"+data[i][5]+"'>";
+								currentTasks += "<h3 class='panel-title'><span class='glyphicon glyphicon-chevron-down'></span>&nbsp;"+data[i][1]+"</h3></div>";
+								currentTasks += "<div id='task"+data[i][5]+"' class='panel-collapse collapse'><h4>&nbsp;&nbsp;";
+								if(currentID == parseInt(localStorage.getItem("currentUser"))){
+									currentTasks += "<button type='button' class='btn btn-info glyphicon glyphicon-ok' onClick='completeTask("+data[i][5]+");' style='color:black;'></button>";
+									currentTasks += "<button type='button' class='btn btn-danger glyphicon glyphicon-remove' onClick='deleteTask("+data[i][5]+");' style='color:black;'></button>";
+								}
+								currentTasks += "&nbsp;&nbsp;Deadline: "+data[i][3]+"</h4>";
+								currentTasks += "<div class='panel-body'>"+data[i][2]+"</div></div></div>";
+								currentCount++;
+							}
+							else{		//Completed tasks
+								completedTasks += "<div class='panel panel-default'>";
+								completedTasks += "<div class='panel-heading' data-toggle='collapse' data-parent='#completedAccordion' data-target='#completed"+data[i][5]+"'>";
+								completedTasks += "<h3 class='panel-title'><span class='glyphicon glyphicon-chevron-down'></span>&nbsp;"+data[i][1]+"</h3></div>";
+								completedTasks += "<div id='completed"+data[i][5]+"' class='panel-collapse collapse'>";
+								completedTasks += "<h4>&nbsp;&nbsp;Completed: "+data[i][3]+"</h4><div class='panel-body'>"+data[i][2]+"</div></div></div>";
+								completedCount++;
+							}
+						}
+					}
+					
+					var percent = 0;
+					if(completedCount+currentCount != 0){
+						percent = Math.round((completedCount/(completedCount+currentCount))*100);
+					}
+					currentTasks += "</div>";
+					completedTasks += "</div>";
+					stringHTML += "<div class='progress'>";
+					stringHTML += "<div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuenow='"+percent+"' ";
+					stringHTML += "aria-valuemin='0' aria-valuemax='100' style='min-width:2em; width: "+percent+"%;'>"+percent+"%</div></div>";
+					stringHTML += currentTasks + completedTasks + "</div></div></div></br>";
+				}
+				document.getElementById("tab-content").innerHTML = stringHTML;
+			});
+	});
+}
+
+function completeTask(taskID){
+	$.post("completeTask.php", { taskID: taskID },
+		function(data) {
+			printTasks();
+			displayMessageModal("Completed", "Task completed! Nice!");
+	});
+}
+
+function deleteTask(taskID){
+	$.post("deleteTask.php", { taskID: taskID },
+		function(data) {
+			printTasks();
+			displayMessageModal("Deleted", "Task deleted.");
+	});
+}
+
+function homePageLoad(){
+	printGoals();
+	printUsers();
+}
+
+function printUsers(){
+	var userID = parseInt(localStorage.getItem("currentUser"));
+	$.post("printUsers.php", {userID: userID},
+		function(data){
+			data = JSON.parse(data);
+			var userString = "";
+			for(var i = 0; i < data.length; i++){
+				userString += "<div class='col-sm-6 col-md-4'><div class='thumbnail'>";
+				userString += "<img src='"+data[i][9]+"' alt='"+data[i][1]+data[i][2]+"'>";
+				userString += "<div class='caption'><h3>"+data[i][1]+" "+data[i][2]+"</h3>";
+				userString += "<p>"+data[i][7]+"</p></div></div></div>";
+			}
+			document.getElementById("userContactCards").innerHTML = userString;
+		});
 }

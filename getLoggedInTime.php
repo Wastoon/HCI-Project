@@ -24,6 +24,10 @@ if($diff > 5){
 	echo(0);
 }
 else{
+	$dt = new DateTime();
+	$currTime = $dt->format('Y-m-d H:i:s');
+	$query = "UPDATE logged_in set time='$currTime' where id='$id'";
+	mysql_query($query);
 	echo(1);
 }
 
