@@ -391,7 +391,9 @@ function printUsers(){
 			var userString = "";
 			for(var i = 0; i < data.length; i++){
 				userString += "<div class='col-sm-6 col-md-4'><div class='thumbnail'>";
-				userString += "<div class='caption'><h3>"+data[i][1]+" "+data[i][2]+"</h3>";
+				userString += "<div class='caption'><h3 style='font-weight:bold'>"+data[i][1]+" "+data[i][2]+"</h3>";
+				userString += "<p style='font-size:80%'>"+data[i][4]+"</p>";
+				userString += "<p style='font-size:80%'>"+data[i][3]+"</p>";
 				userString += "<p>"+data[i][7]+"</p></div></div></div>";
 			}
 			document.getElementById("userContactCards").innerHTML = userString;
