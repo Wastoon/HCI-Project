@@ -1,7 +1,7 @@
 #!/usr/local/bin/php
 
 <?php
-
+session_start();
 $conn  = mysql_connect('mysql.cise.ufl.edu', 'jnassar', 'Theitis94') or 
    die ('Could not connect:' . mysql_error());
 
@@ -10,7 +10,7 @@ $conn  = mysql_connect('mysql.cise.ufl.edu', 'jnassar', 'Theitis94') or
 $title = $_POST['title'];
 $deadline = $_POST['deadline'];
 $desc = $_POST['desc'];
-$userID = $_POST['userID'];
+$userID = $_SESSION['userID'];
 $zero = 0;
 
 $query = "INSERT INTO tasks VALUES ('$userID', '$title', '$desc', '$deadline', '$zero', '')";

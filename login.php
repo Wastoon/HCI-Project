@@ -17,6 +17,8 @@ $encryptedPassword = $row[1];
 $num = mysql_num_rows($result);
 
 if(sha1($password) == $encryptedPassword){
+	session_start();
+	$_SESSION["userID"] = $row[0];
 	echo($row[0]);
 }
 else if($num == 0){

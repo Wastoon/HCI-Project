@@ -7,24 +7,30 @@ $conn  = mysql_connect('mysql.cise.ufl.edu', 'jnassar', 'Theitis94') or
 
 @mysql_select_db('hci_project') or die('Could not select database');
 
+session_start();
 
+$userID = $_SESSION['userID'];
 $first=$_POST['firstname'];
 $last=$_POST['lastname'];
 $phone = $_POST['phonenumber'];
 $email = $_POST['email'];
-$password = $_POST['password1'];
-$group = $_POST['groupid'];
 $bio = $_POST['aboutme'];
-$imageName = $_POST['firstname'] . $_POST['lastname'];
-$imagePath = "/pics/" . $_POST['firstname'] . $_POST['lastname'] . $_POST['phonenumber'] . ".png";
 
-$query = "SELECT email from users where email='$email'";
+$query = "SELECT * from users where email='$email'";
 $result = mysql_query($query);
 $num_rows_email = mysql_num_rows($result);
+$row = mysql_fetch_array($result);
+if($row[0] == $userID){
+	$num_rows_email = 0;
+}
 
-$query = "SELECT email from users where phone='$phone'";
+$query = "SELECT * from users where phone='$phone'";
 $result = mysql_query($query);
 $num_rows_phone = mysql_num_rows($result);
+$row = mysql_fetch_array($result);
+if($row[0] == $userID){
+	$num_rows_phone = 0;
+}
 
 if($num_rows_email > 0){
 	echo(1);
@@ -33,13 +39,8 @@ else if($num_rows_phone > 0){
 	echo(2);
 }
 else{
-$query = "INSERT INTO users VALUES('', '$first', '$last', '$phone', '$email', SHA1('$password'), '$group', '$bio', '$imageName', '$imagePath')";
+$query = "UPDATE users set first='$first', last='$last', phone='$phone', email='$email', bio='$bio' where id='$userID'";
 $result = mysql_query($query);
-$query = "SELECT id from users where email='$email'";
-$result = mysql_query($query);
-$row = mysql_fetch_array($result);
-session_start();
-$_SESSION["userID"] = $row[0];
 echo(0);
 }
 

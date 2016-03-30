@@ -46,32 +46,28 @@ $(document).ready(function() {
     return [];
   }
   
-	var userID = parseInt(localStorage.getItem("currentUser"));
-	var loggedIn;
-	if(locationPath == "~jnassar/HCI-Project"){
-		$.post("getLoggedInTime.php", {id: userID},
+	if(locationPath == "~jnassar/HCI-Project/signup"){}
+	else if(locationPath == "~jnassar/HCI-Project"){
+		$.post("isLoggedIn.php", {id: 0},
 			function(data){
-				localStorage.setItem("loggedIn", data);
-				if(localStorage.getItem("loggedIn") == 0){
-					console.log("Not logged in");
-					$('#loginModal').modal('show');
+				console.log("Logged in as: "+data);
+				if(data != -1){
+					document.getElementById("home-content").style.display = "block";
 				}
 				else{
-					console.log("Logged in");
-					document.getElementById("home-content").style.display = "block";
+					console.log("Not logged in");
+					$('#loginModal').modal('show');
 				}
 			});
 	}
 	else{
-		$.post("../getLoggedInTime.php", {id: userID},
+		$.post("../isLoggedIn.php", {id: 0},
 			function(data){
-				localStorage.setItem("loggedIn", data);
-				if(data == 0){
+				if(data == -1){
 					window.location.href = "http://cise.ufl.edu/~jnassar/HCI-Project/";		//THIS NEEDS TO BE ACTUALLY TESTED
 				}
 			});
 	}
-	console.log(localStorage.getItem("currentUser"));
 
   //Starts the discussion window at the bottom
   var objDiv = document.getElementById("discussion-window");
@@ -98,12 +94,7 @@ function login(form) {
 				return false;
 			}
 			else{
-				$.post("updateLoggedIn.php", {email: email},
-				function(data){
-				});
-				localStorage.setItem("currentUser", data);
-				$('#loginModal').modal('hide');
-				document.getElementById("home-content").style.display = "block";
+				window.location.href = "http://cise.ufl.edu/~jnassar/HCI-Project/";
 			}
 	});
   return true;
@@ -140,11 +131,7 @@ function signup(form) {
 
 	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-	if (reg.test(form.email.value) == false)
-	{
-		alert('Invalid Email Address');
-		return false;
-	}
+	
 
 	var firstname = $("#first-name").val();
 	var lastname = $("#last-name").val();
@@ -152,19 +139,41 @@ function signup(form) {
 	phonenumber = phonenumber.split('-').join('');
 	var email = $("#email-address").val();
 	var password1 = $("#password1").val();
+	var password2 = $("#password2").val();
 	var aboutme = $("#about-me").val();
 	var groupid = $("#group-id").val();
+	
+	if(firstname == "" || lastname == ""){
+		alert("You must provide your first and last name!");
+		return false;
+	}
+	else if (reg.test(form.email.value) == false){
+		alert('Invalid Email Address');
+		return false;
+	}
+	else if(password1 == "" || password2 == ""){
+		alert("You must enter your password twice!");
+		return false;
+	}
+	else if(password1 != password2){
+		alert("The passwords must match!");
+		return false;
+	}
+	else if(phonenumber.length != 10){
+		alert("Your phone number is the wrong number of digits!");
+		return false;
+	}
+	else if(groupid == ""){
+		alert("You must provide a group ID!");
+		return false;
+	}
 
 	$.post("signup.php", { firstname: firstname, lastname: lastname, phonenumber:phonenumber,
 			email: email, phonenumber: phonenumber, password1: password1, aboutme: aboutme, groupid: groupid },
 		function(data) {
 		if(data == 0){
 			alert("User created!");
-			
-			$.post("../updateLoggedIn.php", {email: email},
-				function(data){
-					localStorage.setItem("currentUser", data);
-				});
+			window.location.href = "http://cise.ufl.edu/~jnassar/HCI-Project/";
 		}
 		else if(data == 1){
 			alert("There is already an account associated with that email address!");
@@ -183,9 +192,8 @@ function addGoal() {
 	var title = $("#newTitle").val();
 	var deadline = $("#newDeadline").val();
 	var desc = $("#newGoal").val();
-	var userID = parseInt(localStorage.getItem("currentUser"));
 	
-	$.post("addGoal.php", { title: title, deadline: deadline, desc: desc, userID: userID },
+	$.post("addGoal.php", { title: title, deadline: deadline, desc: desc, userID: 0 },
 		function(data) {
 			document.getElementById("newTitle").value= "";
 			document.getElementById("newDeadline").value= "";
@@ -198,9 +206,7 @@ function addGoal() {
 }
 
 function printGoals() {
-	
-	var userID = parseInt(localStorage.getItem("currentUser"));
-	$.post("printGoals.php", {userID: userID},
+	$.post("printGoals.php", {userID: 0},
 		function(data) {
 			data = JSON.parse(data);
 			var currentGoals = "";
@@ -270,9 +276,8 @@ function addTask() {
 	var title = $("#newTitle").val();
 	var deadline = $("#newDeadline").val();
 	var desc = $("#newTask").val();
-	var userID = parseInt(localStorage.getItem("currentUser"));
 	
-	$.post("addTask.php", { title: title, deadline: deadline, desc: desc, userID: userID },
+	$.post("addTask.php", { title: title, deadline: deadline, desc: desc, userID: 0 },
 		function(data) {
 			document.getElementById("newTitle").value= "";
 			document.getElementById("newDeadline").value= "";
@@ -286,8 +291,7 @@ function addTask() {
 
 function printTasks() {
 	var listOfNames;
-	var userID = parseInt(localStorage.getItem("currentUser"));
-	$.post("getNames.php", {userID: userID},
+	$.post("getNames.php", {userID: 0},
 		function(data){
 			data = JSON.parse(data);
 			listOfNames = data;
@@ -299,60 +303,65 @@ function printTasks() {
 			document.getElementById("names-nav").innerHTML = names;
 			var currentID = "";
 			var stringHTML = "";
-	
-			$.post("printTasks.php", {userID: userID},
-			function(data) {
-				data = JSON.parse(data);
-				for(var j = 0; j < listOfNames.length; j++){
-					currentID = listOfNames[j][0];
-					stringHTML += "<div class='panel panel-default' style='background-color:#ffff99;padding-left:10px;padding-right:10px;>";
-					stringHTML += "<div class='tab-pane fade in active'><div class='panel-title'><h9 id='panel"+currentID+"'>"+listOfNames[j][1]+" "+listOfNames[j][2]+"</h9></br><h1>Current Tasks</h1>";
-					if(currentID == parseInt(localStorage.getItem("currentUser"))){
-						stringHTML += "<button type='button' class='btn btn-success' style='color:black;font-weight:bold;font-size:150%;' data-toggle='modal' data-target='#myModalHorizontal'>+ Add Task</button></div>";
-					}
-					var currentTasks = "<div class='panel-group' id='currentAccordion"+currentID+"'>";
-					var completedTasks = "</br></br></br><div class='panel-title'><h1>Completed Tasks</h1></div><div class='panel-group' id=completedAccordion"+currentID+"'>";
-					var currentCount = 0;
-					var completedCount = 0;
-					for(var i = 0; i < data.length; i++){
-						if(currentID == data[i][0]){
-							data[i][3] = data[i][3].substr(0, data[i][3].indexOf(' '));
-							
-							if(data[i][4] == 0){		//Incomplete tasks
-								currentTasks += "<div class='panel panel-default'><div class='panel-heading' data-toggle='collapse' data-parent='#currentAccordion' data-target='#task"+data[i][5]+"'>";
-								currentTasks += "<h3 class='panel-title'><span class='glyphicon glyphicon-chevron-down'></span>&nbsp;"+data[i][1]+"</h3></div>";
-								currentTasks += "<div id='task"+data[i][5]+"' class='panel-collapse collapse'><h4>&nbsp;&nbsp;";
-								if(currentID == parseInt(localStorage.getItem("currentUser"))){
-									currentTasks += "<button type='button' class='btn btn-info glyphicon glyphicon-ok' onClick='completeTask("+data[i][5]+");' style='color:black;'></button>";
-									currentTasks += "<button type='button' class='btn btn-danger glyphicon glyphicon-remove' onClick='deleteTask("+data[i][5]+");' style='color:black;'></button>";
+			
+			$.post("../isLoggedIn.php",{userID:0},
+			function(userID){
+				userID = parseInt(userID);
+				$.post("printTasks.php", {userID: 0},
+				function(data) {
+					data = JSON.parse(data);
+					console.log(userID);
+					for(var j = 0; j < listOfNames.length; j++){
+						currentID = listOfNames[j][0];
+						stringHTML += "<div class='panel panel-default' style='background-color:#ffff99;padding-left:10px;padding-right:10px;>";
+						stringHTML += "<div class='tab-pane fade in active'><div class='panel-title'><h9 id='panel"+currentID+"'>"+listOfNames[j][1]+" "+listOfNames[j][2]+"</h9></br><h1>Current Tasks</h1>";
+						if(currentID == userID){
+							stringHTML += "<button type='button' class='btn btn-success' style='color:black;font-weight:bold;font-size:150%;' data-toggle='modal' data-target='#myModalHorizontal'>+ Add Task</button></div>";
+						}
+						var currentTasks = "<div class='panel-group' id='currentAccordion"+currentID+"'>";
+						var completedTasks = "</br></br></br><div class='panel-title'><h1>Completed Tasks</h1></div><div class='panel-group' id=completedAccordion"+currentID+"'>";
+						var currentCount = 0;
+						var completedCount = 0;
+						for(var i = 0; i < data.length; i++){
+							if(currentID == data[i][0]){
+								data[i][3] = data[i][3].substr(0, data[i][3].indexOf(' '));
+								
+								if(data[i][4] == 0){		//Incomplete tasks
+									currentTasks += "<div class='panel panel-default'><div class='panel-heading' data-toggle='collapse' data-parent='#currentAccordion' data-target='#task"+data[i][5]+"'>";
+									currentTasks += "<h3 class='panel-title'><span class='glyphicon glyphicon-chevron-down'></span>&nbsp;"+data[i][1]+"</h3></div>";
+									currentTasks += "<div id='task"+data[i][5]+"' class='panel-collapse collapse'><h4>&nbsp;&nbsp;";
+									if(currentID == userID){
+										currentTasks += "<button type='button' class='btn btn-info glyphicon glyphicon-ok' onClick='completeTask("+data[i][5]+");' style='color:black;'></button>";
+										currentTasks += "<button type='button' class='btn btn-danger glyphicon glyphicon-remove' onClick='deleteTask("+data[i][5]+");' style='color:black;'></button>";
+									}
+									currentTasks += "&nbsp;&nbsp;Deadline: "+data[i][3]+"</h4>";
+									currentTasks += "<div class='panel-body'>"+data[i][2]+"</div></div></div>";
+									currentCount++;
 								}
-								currentTasks += "&nbsp;&nbsp;Deadline: "+data[i][3]+"</h4>";
-								currentTasks += "<div class='panel-body'>"+data[i][2]+"</div></div></div>";
-								currentCount++;
-							}
-							else{		//Completed tasks
-								completedTasks += "<div class='panel panel-default'>";
-								completedTasks += "<div class='panel-heading' data-toggle='collapse' data-parent='#completedAccordion' data-target='#completed"+data[i][5]+"'>";
-								completedTasks += "<h3 class='panel-title'><span class='glyphicon glyphicon-chevron-down'></span>&nbsp;"+data[i][1]+"</h3></div>";
-								completedTasks += "<div id='completed"+data[i][5]+"' class='panel-collapse collapse'>";
-								completedTasks += "<h4>&nbsp;&nbsp;Completed: "+data[i][3]+"</h4><div class='panel-body'>"+data[i][2]+"</div></div></div>";
-								completedCount++;
+								else{		//Completed tasks
+									completedTasks += "<div class='panel panel-default'>";
+									completedTasks += "<div class='panel-heading' data-toggle='collapse' data-parent='#completedAccordion' data-target='#completed"+data[i][5]+"'>";
+									completedTasks += "<h3 class='panel-title'><span class='glyphicon glyphicon-chevron-down'></span>&nbsp;"+data[i][1]+"</h3></div>";
+									completedTasks += "<div id='completed"+data[i][5]+"' class='panel-collapse collapse'>";
+									completedTasks += "<h4>&nbsp;&nbsp;Completed: "+data[i][3]+"</h4><div class='panel-body'>"+data[i][2]+"</div></div></div>";
+									completedCount++;
+								}
 							}
 						}
+						
+						var percent = 0;
+						if(completedCount+currentCount != 0){
+							percent = Math.round((completedCount/(completedCount+currentCount))*100);
+						}
+						currentTasks += "</div>";
+						completedTasks += "</div>";
+						stringHTML += "<div class='progress'>";
+						stringHTML += "<div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuenow='"+percent+"' ";
+						stringHTML += "aria-valuemin='0' aria-valuemax='100' style='min-width:2em; width: "+percent+"%;'>"+percent+"%</div></div></br>";
+						stringHTML += currentTasks + completedTasks + "</div></div></div></br>";
 					}
-					
-					var percent = 0;
-					if(completedCount+currentCount != 0){
-						percent = Math.round((completedCount/(completedCount+currentCount))*100);
-					}
-					currentTasks += "</div>";
-					completedTasks += "</div>";
-					stringHTML += "<div class='progress'>";
-					stringHTML += "<div class='progress-bar progress-bar-success progress-bar-striped active' role='progressbar' aria-valuenow='"+percent+"' ";
-					stringHTML += "aria-valuemin='0' aria-valuemax='100' style='min-width:2em; width: "+percent+"%;'>"+percent+"%</div></div>";
-					stringHTML += currentTasks + completedTasks + "</div></div></div></br>";
-				}
-				document.getElementById("tab-content").innerHTML = stringHTML;
+					document.getElementById("tab-content").innerHTML = stringHTML;
+				});
 			});
 	});
 }
@@ -379,17 +388,98 @@ function homePageLoad(){
 }
 
 function printUsers(){
-	var userID = parseInt(localStorage.getItem("currentUser"));
-	$.post("printUsers.php", {userID: userID},
+	var userID = "";
+	$.post("printUsers.php", {userID: 0},
 		function(data){
 			data = JSON.parse(data);
 			var userString = "";
 			for(var i = 0; i < data.length; i++){
 				userString += "<div class='col-sm-6 col-md-4'><div class='thumbnail'>";
-				userString += "<img src='"+data[i][9]+"' alt='"+data[i][1]+data[i][2]+"'>";
 				userString += "<div class='caption'><h3>"+data[i][1]+" "+data[i][2]+"</h3>";
 				userString += "<p>"+data[i][7]+"</p></div></div></div>";
 			}
 			document.getElementById("userContactCards").innerHTML = userString;
 		});
+}
+
+function displayAccountInfo(){
+	$.post("getAccountInfo.php", {bogus: 0},
+		function(data){
+			data = JSON.parse(data);
+			var accountString = "<form class='form-inline'><div class='form-group'>";
+			accountString += "<label for='first-name'>First Name </label>";
+			accountString += "<input class='form-control' id='first-name' type='text' placeholder='"+data[1]+"'></div><div class='form-group'>&nbsp;&nbsp;&nbsp;";
+			accountString += "<label for='last-name'>Last Name <label><input class='form-control' id='last-name' type='text' placeholder='"+data[2]+"'></div></form></br>";
+			accountString += "<form role='form'><div class='form-group'><label for='email-address'>Email Address</label>";
+			accountString += "<input class='form-control' id='email-address' type='text' placeholder='"+data[4]+"'></br><label for='phone-number'>Phone Number</label>";
+			accountString += "<input class='form-control' id='phone-number' type='tel' placeholder='"+data[3]+"'></br><label for='about-me'>Bio</label>";
+			accountString += "<textarea class='form-control' id='about-me' rows='3'>"+data[7]+"</textarea></br></div></form>";
+			document.getElementById("account-info").innerHTML = accountString;
+		});
+}
+
+function updateAccount(){
+	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+	var firstname = $("#first-name").val();
+	var lastname = $("#last-name").val();
+	var phonenumber = $("#phone-number").val();
+	phonenumber = phonenumber.split('-').join('');
+	var email = $("#email-address").val();
+	var aboutme = $("#about-me").val();
+	
+	if (reg.test(email) == false && email != ""){
+		alert('Invalid Email Address');
+		return false;
+	}
+	else if(phonenumber.length != 10 && phonenumber != ""){
+		alert("Your phone number is the wrong number of digits!");
+		return false;
+	}
+	$.post("getAccountInfo.php", {},
+	function(account){
+		account = JSON.parse(account);
+		console.log(email + ", " + account[4]);
+		console.log(phonenumber + ", " + account[3]);
+		if(firstname.length == 0){
+			firstname = account[1];
+		}
+		if(lastname.length == 0){
+			lastname = account[2];
+		}
+		if(email.length == 0){
+			email = account[4];
+		}
+		if(phonenumber.length == 0){
+			phonenumber = account[3];
+		}
+		$.post("updateAccount.php", { firstname: firstname, lastname: lastname, email: email, phonenumber: phonenumber, aboutme: aboutme},
+			function(data) {
+			if(data == 0){
+				alert("Account updated!");
+			}
+			else if(data == 1){
+				alert("There is already an account associated with that email address!");
+			}
+			else if(data == 2){
+				alert("There is already an account associated with that phone number!");
+			}
+		});
+	});
+	
+   return true;
+}
+
+function logoutHomePage(){
+	$.post("logout.php", {},
+	function(data){
+		
+	});
+}
+
+function logout(){
+	$.post("../logout.php", {},
+	function(data){
+		
+	});
 }

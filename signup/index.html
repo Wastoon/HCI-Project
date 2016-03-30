@@ -34,31 +34,6 @@
 
 <body>
 
-		<!--Nav bar-->
-	<nav class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="../">HCI</a>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="../">Home</a></li>
-					<li><a href="../goals">Goals</a></li>
-					<li><a href="../tasks">Tasks</a></li>
-					<li><a href="../discussion">Discussion</a></li>
-					<li><a href="./">User</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
-	</br></br>
-
 
 	<!--Home page-->
 
@@ -106,11 +81,6 @@
 					<label for="about-me">About Me</label>
     			<textarea class="form-control" name="about-me" id="about-me" rows="4" placeholder="Ex: I love to swim."></textarea>
 </div></br></br>
-<div class = "form-group">
-          <label for="picture-input">Select a profile picture</label>
-          <input type='file' accept="image/*" id="picture-input" onchange="readURL(this);"/>
-          <img id="profile-picture" src="#" alt="Profile picture"  style="display:none;"/>
-			  </div></br></br>
 
         <button type="button" class="btn btn-success" onClick="signup(this.form);" style="color:black;font-weight:bold;font-size: 120%;">Submit</button></br></br>
 			</form>
