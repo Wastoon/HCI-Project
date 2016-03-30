@@ -68,10 +68,6 @@ $(document).ready(function() {
 				}
 			});
 	}
-
-  //Starts the discussion window at the bottom
-  var objDiv = document.getElementById("discussion-window");
-  objDiv.scrollTop = objDiv.scrollHeight;
 });
 $(window).load(function(){
 	
@@ -483,3 +479,47 @@ function logout(){
 		
 	});
 }
+
+function printMessages(){
+	function filterPath(string) {
+	  return string
+		.replace(/^\//,'')
+		.replace(/(index|default).[a-zA-Z]{3,4}$/,'')
+		.replace(/\/$/,'');
+	  }
+	  var locationPath = filterPath(location.pathname);
+	if(locationPath == "~jnassar/HCI-Project/discussion"){
+		var messageString = "";
+		$.post("./printMessages.php", {},
+		function(data){
+			data = JSON.parse(data);
+			var start = data.length - 100;
+			if(start < 0){
+				start = 0;
+			}
+			for(var i = start; i < data.length; i++){
+				messageString += "<h4 style='font-weight:bold'>"+data[i][1]+"</h4>";
+				messageString += "<p style='font-size:90%'>"+data[i][3]+"</p>";
+				messageString += "<p>"+data[i][2]+"</p><hr>";
+			}
+			document.getElementById("message-window").innerHTML = messageString;
+			var objDiv = document.getElementById("message-window");
+			objDiv.scrollTop = objDiv.scrollHeight;
+		});
+	}
+}
+
+function sendMessage(){
+	var message = $("#message").val();
+	$.post("./sendMessage.php", {message: message},
+	function(data){
+		document.getElementById("message").value= "";
+		printMessages();
+	});
+	return false;
+}
+
+
+$(function () {
+	setInterval(printMessages, 5000);
+});

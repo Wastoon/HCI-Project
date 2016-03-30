@@ -32,7 +32,7 @@
 </head>
 
 
-<body>
+<body onload="printMessages();">
 
 		<!--Nav bar-->
 	<nav class="navbar navbar-default navbar-fixed-top">
@@ -69,45 +69,13 @@
 				<h9>Discussion</h9>
 			</div>
 
-			<div id="discussion-window" class="well well-lg" style="height:500px; overflow-y:scroll;">
-
-				<h4 style="font-weight:bold">Ron</h4>
-				<p style="font-size:90%">1:24pm 3/15/16</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;Has anyone started working on this yet?</p>
-				<hr>
-
-				<h4 style="font-weight:bold; text-align:right;">You</h4>
-				<p style="font-size:90%;text-align:right;">1:28pm 3/15/16</p>
-				<p style="text-align:right;">Uhhh....I haven't even thought about it.&nbsp;&nbsp;&nbsp;&nbsp;</p>
-				<hr>
-
-				<h4 style="font-weight:bold">Hermione</h4>
-				<p style="font-size:90%">1:32pm 3/15/16</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;I've already finished the whole project!</p>
-				<hr>
-
-				<h4 style="font-weight:bold">Ron</h4>
-				<p style="font-size:90%">4:43am 3/16/16</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;Hermione, what would we ever do without you?</p>
-				<hr>
-
-				<h4 style="font-weight:bold">Hermione</h4>
-				<p style="font-size:90%">12:15pm 3/16/16</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;Well, fail HCI for starters...</p>
-				<hr>
-
-				<h4 style="font-weight:bold; text-align:right;">You</h4>
-				<p style="font-size:90%;text-align:right;">3:58pm 3/16/16</p>
-				<p style="text-align:right;">Nothing more true has ever been said. EVER.&nbsp;&nbsp;&nbsp;&nbsp;</p>
-				<hr>
-
-			</div>
-			<form role="form">
+			<div id='message-window' class="well well-lg" style="height:500px; overflow-y:scroll;"></div>
+			<form role="form" onsubmit="return sendMessage();" autocomplete="off">
 			  <div class="form-group">
 			    <label for="message">Message</label>
 			    <input class="form-control" id="message" type="text" placeholder="Enter your message here...">
 					<div id="send-button" style="text-align: right;">
-						<button type="button" class="btn btn-success glyphicon glyphicon-chevron-right" style="color:black;font-weight:bold;font-size: 120%;"></button>
+						<button type="button" id="message-button" onClick="sendMessage();" class="btn btn-success glyphicon glyphicon-chevron-right" style="color:black;font-weight:bold;font-size: 120%;"></button>
 					</div>
 			  </div>
 			</form>
