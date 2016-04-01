@@ -273,11 +273,12 @@ function addTask() {
 	var deadline = $("#newDeadline").val();
 	var desc = $("#newTask").val();
 	
-	$.post("addTask.php", { title: title, deadline: deadline, desc: desc, userID: 0 },
+	$.post("addTask.php", { title: title, deadline: deadline, desc: desc},
 		function(data) {
 			document.getElementById("newTitle").value= "";
 			document.getElementById("newDeadline").value= "";
 			document.getElementById("newTask").value= "";
+			console.log(data);
 			$('#myModalHorizontal').modal('hide');
 			displayMessageModal("Task Created", "You've just created a new task. Good luck!");
 			printTasks();
@@ -310,10 +311,11 @@ function printTasks() {
 					for(var j = 0; j < listOfNames.length; j++){
 						currentID = listOfNames[j][0];
 						stringHTML += "<div class='panel panel-default' style='background-color:#ffff99;padding-left:10px;padding-right:10px;>";
-						stringHTML += "<div class='tab-pane fade in active'><div class='panel-title'><h9 id='panel"+currentID+"'>"+listOfNames[j][1]+" "+listOfNames[j][2]+"</h9></br><h1>Current Tasks</h1>";
+						stringHTML += "<div class='tab-pane fade in active'><div class='panel-title'><h9 id='panel"+currentID+"'>"+listOfNames[j][1]+" "+listOfNames[j][2]+"</h9></br><h1>Current Tasks ";
 						if(currentID == userID){
-							stringHTML += "<button type='button' class='btn btn-success' style='color:black;font-weight:bold;font-size:150%;' data-toggle='modal' data-target='#myModalHorizontal'>+ Add Task</button></div>";
+							stringHTML += "<button type='button' class='btn btn-success' style='color:black;font-weight:bold;' data-toggle='modal' data-target='#myModalHorizontal'>+ Add Task</button></div></br>";
 						}
+						stringHTML += "</h1>";
 						var currentTasks = "<div class='panel-group' id='currentAccordion"+currentID+"'>";
 						var completedTasks = "</br></br></br><div class='panel-title'><h1>Completed Tasks</h1></div><div class='panel-group' id=completedAccordion"+currentID+"'>";
 						var currentCount = 0;
